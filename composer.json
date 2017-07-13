@@ -1,0 +1,13 @@
+{
+    "name": "dh/ttt-api",
+    "type": "library",
+    "require": {
+        "slim/slim": "^3.8"
+    },
+    "authors": [
+        {
+            "name": "Patrik Fuhrmann",
+            "email": "fuhrmann.patrik@gmail.com"
+        }
+    ]
+}
