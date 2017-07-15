@@ -5,8 +5,6 @@ namespace DH\TttApi\GameEngine;
 class Board
 {
     const CELL_EMPTY = 0;
-    const CELL_X = 1;
-    const CELL_O = 2;
 
     /**
      * @var int

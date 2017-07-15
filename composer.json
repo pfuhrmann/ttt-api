@@ -1,5 +1,6 @@
 {
     "name": "dh/ttt-api",
+    "license": "proprietary",
     "description": "Tic-tac-toe API",
     "require": {
         "slim/slim": "^3.8"

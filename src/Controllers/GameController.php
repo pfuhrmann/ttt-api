@@ -2,7 +2,7 @@
 
 namespace DH\TttApi\Controllers;
 
-use DH\TttApi\GameEngine\Board;
+use DH\TttApi\GameEngine\TttBoard;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -22,7 +22,7 @@ class GameController
     public function init(RequestInterface $request, Response $response): ResponseInterface
     {
         $response->getBody()->write("Player X played the move");
-        $board = new Board();
+        $board = new TttBoard();
 
         return $response->withJson(['layout' => $board->getLayout()]);
     }
@@ -40,7 +40,7 @@ class GameController
     public function move(RequestInterface $request, Response $response): ResponseInterface
     {
         $response->getBody()->write("Player X played the move");
-        $board = new Board();
+        $board = new TttBoard();
 
         return $response->withJson(['layout' => $board->getLayout()]);
     }
