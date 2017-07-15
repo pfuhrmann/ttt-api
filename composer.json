@@ -1,8 +1,13 @@
 {
     "name": "dh/ttt-api",
-    "type": "library",
+    "description": "Tic-tac-toe API",
     "require": {
         "slim/slim": "^3.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "DH\\TttApi\\": "src/"
+        }
     },
     "authors": [
         {
