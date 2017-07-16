@@ -42,14 +42,52 @@ class GameController
     public function move(Request $request, Response $response): ResponseInterface
     {
         $data = $request->getParsedBody();
-        $board = new TttBoard();
-        $board->setLayout($data['layout']);
-        $board->setPointType(TttBoard::CELL_X, $data['position'][0], $data['position'][1]);
 
-        $state = new State($board);
+        $board = new TttBoard();
+        $board = $this->registerPlayerMove($board, $data['layout'], $data['position']);
         $bot = (new BotFactory())->createBot($data['botName']);
+        $state = new State($board);
         $state = $bot->takeTurn($state);
 
-        return $response->withJson(['layout' => $state->getLayout()]);
+        return $response->withJson([
+            'layout' => $state->getLayout(),
+            'status' => $this->getGameStatus($state),
+        ]);
+    }
+
+    /**
+     * Place the players move on the board
+     *
+     * @param TttBoard $board
+     * @param array $layout
+     * @param array $movePosition
+     *
+     * @return TttBoard
+     */
+    private function registerPlayerMove(TttBoard $board, array $layout, array $movePosition): TttBoard
+    {
+        $board->setLayout($layout);
+        $board->setPointType(TttBoard::CELL_X, $movePosition[0], $movePosition[1]);
+
+        return $board;
+    }
+
+    private function getGameStatus(State $state): array
+    {
+        $winner = $state->getWinner();
+        if ($state->hasWinner()) {
+            return $this->buildStatus('win', $winner);
+        }
+
+        if ($state->isDraw()) {
+            return $this->buildStatus('draw', $winner);
+        }
+
+        return $this->buildStatus('ongoing', $winner);
+    }
+
+    private function buildStatus(string $stateStr, int $winner)
+    {
+        return [['state' => $stateStr], ['winner' => $winner]];
     }
 }

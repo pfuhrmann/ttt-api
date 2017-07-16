@@ -16,6 +16,11 @@ abstract class BaseBot implements BotInterface
      */
     public function takeTurn(State $state): State
     {
+        // Once the game finished bot do not need to proceed
+        if ($state->isGameFinished()) {
+            return $state;
+        }
+
         $this->state = $state;
         $newState = $state->move($this->computeMove());
 

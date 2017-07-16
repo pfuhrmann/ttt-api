@@ -93,4 +93,9 @@ class TttBoard extends Board
     {
         return pow($this->rows, 2) === $this->blankCount;
     }*/
+
+    public function isFullyOccupied(): bool
+    {
+        return 0 === $this->blankCount;
+    }
 }

@@ -15,22 +15,17 @@ class State
     private $minWinMoves;
 
     /**
-     * Cell coordinates of the winning point
-     * Ex. [0,2]
+     * Winner at this state (if any)
+     *  0 => no winner
      *
-     * @var array
+     * @var int|null
      */
-    private $winner;
+    private $winner = 0;
 
     public function __construct(Board $board)
     {
         $this->board = $board;
         $this->minWinMoves = (2 * $board->getRows()) - 1;
-    }
-
-    public function getBoard(): TttBoard
-    {
-        return $this->board;
     }
 
     /**
@@ -73,7 +68,13 @@ class State
         return null;
     }
 
-    private function getFirstAvailableMove()
+    /**
+     * Returns coordinates of the first available move
+     * Ex. [0,2]
+     *
+     * @return array|null
+     */
+    private function getFirstAvailableMove(): array
     {
         return array_pop(array_reverse($this->getAvailableMoves()));
     }
@@ -86,5 +87,30 @@ class State
     public function getAvailableMoves(): array
     {
         return $this->getBoard()->getBlanks();
+    }
+
+    public function getBoard(): TttBoard
+    {
+        return $this->board;
+    }
+
+    public function isDraw(): bool
+    {
+        return $this->isGameFinished() && !$this->hasWinner();
+    }
+
+    public function isGameFinished(): bool
+    {
+        return $this->board->isFullyOccupied();
+    }
+
+    public function hasWinner(): bool
+    {
+        return 0 !== $this->winner;
+    }
+
+    public function getWinner(): int
+    {
+        return $this->winner;
     }
 }
