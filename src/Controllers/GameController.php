@@ -5,6 +5,7 @@ namespace DH\TttApi\Controllers;
 use DH\TttApi\GameEngine\TttBoard;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
 use Slim\Http\Response;
 
 class GameController
@@ -21,7 +22,6 @@ class GameController
      */
     public function init(RequestInterface $request, Response $response): ResponseInterface
     {
-        $response->getBody()->write("Player X played the move");
         $board = new TttBoard();
 
         return $response->withJson(['layout' => $board->getLayout()]);
@@ -32,15 +32,19 @@ class GameController
      *
      * HTTP POST /move
      *
-     * @param RequestInterface $request
+     * @param RequestInterface|Request $request
      * @param Response $response
      *
      * @return ResponseInterface
      */
-    public function move(RequestInterface $request, Response $response): ResponseInterface
+    public function move(Request $request, Response $response): ResponseInterface
     {
-        $response->getBody()->write("Player X played the move");
+        $data = $request->getParsedBody();
+       // return $response->withJson($request->getParsedBody());
         $board = new TttBoard();
+
+        $board->setLayout($data['layout']);
+        $board->setPointType(TttBoard::CELL_X, $data['position'][0], $data['position'][1]);
 
         return $response->withJson(['layout' => $board->getLayout()]);
     }
