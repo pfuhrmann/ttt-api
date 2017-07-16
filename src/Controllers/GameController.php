@@ -2,6 +2,8 @@
 
 namespace DH\TttApi\Controllers;
 
+use DH\TttApi\GameEngine\Bot\UnbeatableBot;
+use DH\TttApi\GameEngine\State;
 use DH\TttApi\GameEngine\TttBoard;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -40,12 +42,14 @@ class GameController
     public function move(Request $request, Response $response): ResponseInterface
     {
         $data = $request->getParsedBody();
-       // return $response->withJson($request->getParsedBody());
         $board = new TttBoard();
-
         $board->setLayout($data['layout']);
         $board->setPointType(TttBoard::CELL_X, $data['position'][0], $data['position'][1]);
 
-        return $response->withJson(['layout' => $board->getLayout()]);
+        $state = new State($board, $data['position']);
+        $bot = new UnbeatableBot();
+        $state = $bot->takeTurn($state);
+
+        return $response->withJson(['layout' => $state->getLayout()]);
     }
 }

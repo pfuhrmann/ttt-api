@@ -21,13 +21,7 @@ class Board
      */
     private $layout;
 
-    /**
-     * Create new instance of Board
-     *
-     * @param int $rows Number of rows on the board
-     * @param int $columns Number of columns on the board
-     */
-    public function __construct($rows = 3, $columns = 3)
+    public function __construct(int $rows = 3, int $columns = 3)
     {
         $this->rows = $rows;
         $this->columns = $columns;
@@ -55,35 +49,21 @@ class Board
         $this->layout = $layout;
     }
 
-    /**
-     * @return int
-     */
     public function getRows(): int
     {
         return $this->rows;
     }
 
-    /**
-     * @return int
-     */
     public function getColumns(): int
     {
         return $this->columns;
     }
 
-    /**
-     * Get simple board layout (without edges)
-     *
-     * @return array
-     */
     public function getLayout(): array
     {
         return $this->layout;
     }
 
-    /**
-     * @param array $layout
-     */
     public function setLayout(array $layout)
     {
         $this->layout = $layout;
