@@ -15,12 +15,12 @@ class State
      *
      * @var array
      */
-    private $move;
+    private $movePosition;
 
-    public function __construct(Board $board, array $move)
+    public function __construct(Board $board, array $movePosition)
     {
         $this->board = $board;
-        $this->move = $move;
+        $this->movePosition = $movePosition;
     }
 
     public function getBoard(): Board
@@ -28,13 +28,17 @@ class State
         return $this->board;
     }
 
-    public function getMove(): array
+    public function getMovePosition(): array
     {
-        return $this->move;
+        return $this->movePosition;
     }
 
     public function getLayout(): array
     {
         return $this->board->getLayout();
+    }
+
+    public function move($computeMove)
+    {
     }
 }

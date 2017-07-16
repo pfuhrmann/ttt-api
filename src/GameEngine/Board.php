@@ -42,7 +42,7 @@ class Board
 
         for ($row = 0; $row < $this->rows; $row++) {
             for ($column = 0; $column < $this->columns; $column++) {
-                $layout[$row][$column]['type'] = self::CELL_EMPTY;
+                $this->setPointType(self::CELL_EMPTY, $row, $column);
             }
         }
 
