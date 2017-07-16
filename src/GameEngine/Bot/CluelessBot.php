@@ -1,23 +1,25 @@
 <?php declare(strict_types=1);
 
+
 namespace DH\TttApi\GameEngine\Bot;
 
-class UnbeatableBot extends BaseBot
+/**
+ * Does the moves randomly, no knowledge of the game
+ */
+class CluelessBot extends BaseBot
 {
-    const NAME = 'unbeatable';
+    const NAME = 'clueless';
 
     /**
+     * Computes the move randomly from the available moves
+     *
      * {@inheritdoc}
      */
     protected function computeBestMove(): array
     {
-        /*@base_score = game_state.available_moves.count + 1
-        bound = @base_score + 1
-        minmax(game_state, INITIAL_DEPTH, -bound, bound)
-        @current_move_choice*/
         $availableMoves = $this->state->getAvailableMoves();
 
-        return $availableMoves[array_rand($this->state->getAvailableMoves())];
+        return $availableMoves[array_rand($availableMoves)];
     }
 
     /**

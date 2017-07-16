@@ -4,22 +4,22 @@ namespace DH\TttApi\GameEngine;
 
 class Board
 {
-    const CELL_EMPTY = 0;
+    const CELL_BLANK = 0;
 
     /**
      * @var int
      */
-    private $rows;
+    protected $rows;
 
     /**
      * @var int
      */
-    private $columns;
+    protected $columns;
 
     /**
      * @var array
      */
-    private $layout;
+    protected $layout;
 
     public function __construct(int $rows = 3, int $columns = 3)
     {
@@ -38,15 +38,11 @@ class Board
      */
     private function initBoard(): void
     {
-        $layout = [];
-
         for ($row = 0; $row < $this->rows; $row++) {
             for ($column = 0; $column < $this->columns; $column++) {
-                $this->setPointType(self::CELL_EMPTY, $row, $column);
+                $this->setPointType(self::CELL_BLANK, $row, $column);
             }
         }
-
-        $this->layout = $layout;
     }
 
     public function getRows(): int
