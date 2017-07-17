@@ -9,6 +9,14 @@ class UnbeatableBot extends BaseBot
     /**
      * {@inheritdoc}
      */
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function computeBestMove(): array
     {
         /*@base_score = game_state.available_moves.count + 1
@@ -18,13 +26,5 @@ class UnbeatableBot extends BaseBot
         $availableMoves = $this->state->getAvailableMoves();
 
         return $availableMoves[array_rand($this->state->getAvailableMoves())];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return self::NAME;
     }
 }

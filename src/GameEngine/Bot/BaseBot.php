@@ -28,6 +28,23 @@ abstract class BaseBot implements BotInterface
     }
 
     /**
+     * Get bot name
+     *
+     * @return string
+     */
+    abstract public function getName(): string;
+
+    /**
+     * Cell coordinates of the best move
+     * Ex. [0,2]
+     *
+     * @var array
+     *
+     * @return array
+     */
+    abstract protected function computeBestMove(): array;
+
+    /**
      * Cell coordinates of the next move
      * Ex. [0,2]
      *
@@ -41,21 +58,4 @@ abstract class BaseBot implements BotInterface
 
         return $this->computeBestMove();
     }
-
-    /**
-     * Cell coordinates of the best move
-     * Ex. [0,2]
-     *
-     * @var array
-     *
-     * @return array
-     */
-     abstract protected function computeBestMove(): array;
-
-    /**
-     * Get bot name
-     *
-     * @return string
-     */
-     abstract public function getName(): string;
 }

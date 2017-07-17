@@ -68,14 +68,6 @@ class TttBoard extends Board
         }
     }
 
-    private function removeBlank(int $row, int $col): void
-    {
-        $this->blankCount--;
-        if (($key = array_search([$row, $col], $this->blanks)) !== false) {
-            unset($this->blanks[$key]);
-        }
-    }
-
     /**
      * @return array
      */
@@ -84,18 +76,16 @@ class TttBoard extends Board
         return $this->blanks;
     }
 
-    /**
-     * Checks whether board is blank
-     *
-     * @return bool
-     */
-    /*public function isBlank(): bool
-    {
-        return pow($this->rows, 2) === $this->blankCount;
-    }*/
-
     public function isFullyOccupied(): bool
     {
         return 0 === $this->blankCount;
+    }
+
+    private function removeBlank(int $row, int $col): void
+    {
+        $this->blankCount--;
+        if (($key = array_search([$row, $col], $this->blanks)) !== false) {
+            unset($this->blanks[$key]);
+        }
     }
 }

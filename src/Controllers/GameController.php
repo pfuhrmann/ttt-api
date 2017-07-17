@@ -18,7 +18,7 @@ class GameController
      * HTTP GET /board
      *
      * @param RequestInterface $request
-     * @param Response $response
+     * @param Response         $response
      *
      * @return ResponseInterface
      */
@@ -35,7 +35,7 @@ class GameController
      * HTTP POST /move
      *
      * @param RequestInterface|Request $request
-     * @param Response $response
+     * @param Response                 $response
      *
      * @return ResponseInterface
      */
@@ -59,8 +59,8 @@ class GameController
      * Place the players move on the board
      *
      * @param TttBoard $board
-     * @param array $layout
-     * @param array $movePosition
+     * @param array    $layout
+     * @param array    $movePosition
      *
      * @return TttBoard
      */

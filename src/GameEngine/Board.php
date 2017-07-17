@@ -28,23 +28,6 @@ class Board
         $this->initBoard();
     }
 
-    /**
-     * Initialize empty gaming board
-     *  - Empty board is 2D array with
-     *     all point type set to 0 (int)
-     *  Example:  0|0|0
-     *            0|0|0
-     *            0|0|0
-     */
-    private function initBoard(): void
-    {
-        for ($row = 0; $row < $this->rows; $row++) {
-            for ($column = 0; $column < $this->columns; $column++) {
-                $this->setPointType(self::CELL_BLANK, $row, $column);
-            }
-        }
-    }
-
     public function getRows(): int
     {
         return $this->rows;
@@ -94,5 +77,22 @@ class Board
     public function setPointType(int $type, int $row, int $col): void
     {
         $this->layout[$row][$col]['type'] = $type;
+    }
+
+    /**
+     * Initialize empty gaming board
+     *  - Empty board is 2D array with
+     *     all point type set to 0 (int)
+     *  Example:  0|0|0
+     *            0|0|0
+     *            0|0|0
+     */
+    private function initBoard(): void
+    {
+        for ($row = 0; $row < $this->rows; $row++) {
+            for ($column = 0; $column < $this->columns; $column++) {
+                $this->setPointType(self::CELL_BLANK, $row, $column);
+            }
+        }
     }
 }

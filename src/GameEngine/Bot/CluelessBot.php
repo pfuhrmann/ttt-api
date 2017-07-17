@@ -11,6 +11,14 @@ class CluelessBot extends BaseBot
     const NAME = 'clueless';
 
     /**
+     * {@inheritdoc}
+     */
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    /**
      * Computes the move randomly from the available moves
      *
      * {@inheritdoc}
@@ -20,13 +28,5 @@ class CluelessBot extends BaseBot
         $availableMoves = $this->state->getAvailableMoves();
 
         return $availableMoves[array_rand($availableMoves)];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return self::NAME;
     }
 }

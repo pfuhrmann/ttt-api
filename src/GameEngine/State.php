@@ -25,6 +25,76 @@ class State
         $this->checkForWin();
     }
 
+    public function getLayout(): array
+    {
+        return $this->board->getLayout();
+    }
+
+    /**
+     * Advance the position on the board
+     *
+     * @param array $movePosition Cell coordinates of the new board move ex. [0,2]
+     *
+     * @return State new state after the move
+     */
+    public function move(array $movePosition): State
+    {
+        $newBoard = clone $this->board;
+        $newBoard->setPointType(TttBoard::CELL_O, $movePosition[0], $movePosition[1]);
+
+        return new State($newBoard);
+    }
+
+    /**
+     * Check if this is last move and returns corresponding coordinates
+     * Ex. [0,2]
+     *
+     * @return array|null
+     */
+    public function isLastMove(): ?array
+    {
+        if ($this->board->getBlankCount() === 1) {
+            return $this->getFirstAvailableMove();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get array of available moves in the current state
+     *
+     * @return array
+     */
+    public function getAvailableMoves(): array
+    {
+        return $this->getBoard()->getBlanks();
+    }
+
+    public function getBoard(): TttBoard
+    {
+        return $this->board;
+    }
+
+    public function isGameFinished(): bool
+    {
+        return $this->hasWinner() || $this->isDraw();
+    }
+
+    public function hasWinner(): bool
+    {
+        return 0 !== $this->winner;
+    }
+
+    public function isDraw(): bool
+    {
+        return $this->board->isFullyOccupied() && !$this->hasWinner();
+    }
+
+    public function getWinner(): int
+    {
+        return $this->winner;
+    }
+
     private function checkForWin(): void
     {
         $this->winner = $this->checkWin() ?: 0;
@@ -119,41 +189,6 @@ class State
         return null;
     }
 
-    public function getLayout(): array
-    {
-        return $this->board->getLayout();
-    }
-
-    /**
-     * Advance the position on the board
-     *
-     * @param array $movePosition Cell coordinates of the new board move ex. [0,2]
-     *
-     * @return State new state after the move
-     */
-    public function move(array $movePosition): State
-    {
-        $newBoard = clone $this->board;
-        $newBoard->setPointType(TttBoard::CELL_O, $movePosition[0], $movePosition[1]);
-
-        return new State($newBoard);
-    }
-
-    /**
-     * Check if this is last move and returns corresponding coordinates
-     * Ex. [0,2]
-     *
-     * @return array|null
-     */
-    public function isLastMove(): ?array
-    {
-        if ($this->board->getBlankCount() === 1) {
-            return $this->getFirstAvailableMove();
-        }
-
-        return null;
-    }
-
     /**
      * Returns coordinates of the first available move
      * Ex. [0,2]
@@ -163,45 +198,5 @@ class State
     private function getFirstAvailableMove(): array
     {
         return array_pop(array_reverse($this->getAvailableMoves()));
-    }
-
-    /**
-     * Get array of available moves in the current state
-     *
-     * @return array
-     */
-    public function getAvailableMoves(): array
-    {
-        return $this->getBoard()->getBlanks();
-    }
-
-    public function getBoard(): TttBoard
-    {
-        return $this->board;
-    }
-
-    public function isGameFinished(): bool
-    {
-        return $this->hasWinner() || $this->isDraw();
-    }
-
-    public function hasWinner(): bool
-    {
-        return 0 !== $this->winner;
-    }
-
-    public function isDraw(): bool
-    {
-        return $this->board->isFullyOccupied() && !$this->hasWinner();
-    }
-
-    public function getWinner(): int
-    {
-        return $this->winner;
-    }
-
-    private function checkLine($row, $column): ?int
-    {
-        return null;
     }
 }
