@@ -88,6 +88,6 @@ class GameController
 
     private function buildStatus(string $stateStr, int $winner)
     {
-        return [['state' => $stateStr], ['winner' => $winner]];
+        return ['state' => $stateStr, 'winner' => $winner];
     }
 }
