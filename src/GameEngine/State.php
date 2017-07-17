@@ -32,6 +32,7 @@ class State
 
     /**
      * Check whether this state is winning state
+     * @todo: refactor
      *
      * @return int|null winner
      */
@@ -39,8 +40,9 @@ class State
     {
         $board = $this->board;
         $layout = $this->getLayout();
-        $boardSize = count($layout);
 
+        // Check rows
+        $boardSize = count($layout);
         // Check row win
         for ($row = 0; $row < $boardSize; $row++) {
             $possibleWinner = $board->getCellType($row, 0);
@@ -70,7 +72,40 @@ class State
 
             $isWinning = true;
             for ($row = 1; $row < $boardSize; $row++) {
-                if ($board->getCellType($column, $row) !== $possibleWinner) {
+                if ($board->getCellType($row, $column) !== $possibleWinner) {
+                    $isWinning = false;
+                    continue;
+                }
+            }
+
+            if ($isWinning) {
+                return $possibleWinner;
+            }
+        }
+
+        // Check top-left-to-bottom-right diagonal win
+        $possibleWinner = $board->getCellType(0, 0);
+        if (Board::CELL_BLANK !== $possibleWinner) {
+            $isWinning = true;
+            for ($row = 1; $row < $boardSize; $row++) {
+                if ($board->getCellType($row, $row) !== $possibleWinner) {
+                    $isWinning = false;
+                    continue;
+                }
+            }
+
+            if ($isWinning) {
+                return $possibleWinner;
+            }
+        }
+
+        // Check top-right-to-bottom-left diagonal win
+        $maxIndex = $boardSize - 1;
+        $possibleWinner = $board->getCellType(0, $maxIndex);
+        if (Board::CELL_BLANK !== $possibleWinner) {
+            $isWinning = true;
+            for ($row = 1; $row < $boardSize; $row++) {
+                if ($board->getCellType($row, $maxIndex - $row) !== $possibleWinner) {
                     $isWinning = false;
                     continue;
                 }
@@ -145,11 +180,6 @@ class State
         return $this->board;
     }
 
-    public function isDraw(): bool
-    {
-        return $this->board->isFullyOccupied() && !$this->hasWinner();
-    }
-
     public function isGameFinished(): bool
     {
         return $this->hasWinner() || $this->isDraw();
@@ -160,8 +190,18 @@ class State
         return 0 !== $this->winner;
     }
 
+    public function isDraw(): bool
+    {
+        return $this->board->isFullyOccupied() && !$this->hasWinner();
+    }
+
     public function getWinner(): int
     {
         return $this->winner;
+    }
+
+    private function checkLine($row, $column): ?int
+    {
+        return null;
     }
 }
