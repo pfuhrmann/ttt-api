@@ -10,13 +10,10 @@ class State
     private $board;
 
     /**
-     * @var int
-     */
-    private $minWinMoves;
-
-    /**
      * Winner at this state (if any)
      *  0 => no winner
+     *  1 => Player X
+     *  2 => Player O
      *
      * @var int|null
      */
@@ -25,7 +22,71 @@ class State
     public function __construct(Board $board)
     {
         $this->board = $board;
-        $this->minWinMoves = (2 * $board->getRows()) - 1;
+        $this->checkForWin();
+    }
+
+    private function checkForWin(): void
+    {
+        $this->winner = $this->checkWin() ?: 0;
+    }
+
+    /**
+     * Check whether this state is winning state
+     *
+     * @return int|null winner
+     */
+    private function checkWin(): ?int
+    {
+        $board = $this->board;
+        $layout = $this->getLayout();
+        $boardSize = count($layout);
+
+        // Check row win
+        for ($row = 0; $row < $boardSize; $row++) {
+            $possibleWinner = $board->getCellType($row, 0);
+            if (Board::CELL_BLANK === $possibleWinner) {
+                continue;
+            }
+
+            $isWinning = true;
+            for ($column = 1; $column < $boardSize; $column++) {
+                if ($board->getCellType($row, $column) !== $possibleWinner) {
+                    $isWinning = false;
+                    continue;
+                }
+            }
+
+            if ($isWinning) {
+                return $possibleWinner;
+            }
+        }
+
+        // Check column win
+        for ($column = 0; $column < $boardSize; $column++) {
+            $possibleWinner = $board->getCellType(0, $column);
+            if (Board::CELL_BLANK === $possibleWinner) {
+                continue;
+            }
+
+            $isWinning = true;
+            for ($row = 1; $row < $boardSize; $row++) {
+                if ($board->getCellType($column, $row) !== $possibleWinner) {
+                    $isWinning = false;
+                    continue;
+                }
+            }
+
+            if ($isWinning) {
+                return $possibleWinner;
+            }
+        }
+
+        return null;
+    }
+
+    public function getLayout(): array
+    {
+        return $this->board->getLayout();
     }
 
     /**
@@ -41,16 +102,6 @@ class State
         $newBoard->setPointType(TttBoard::CELL_O, $movePosition[0], $movePosition[1]);
 
         return new State($newBoard);
-    }
-
-    public function checkWin()
-    {
-        $layout = $this->getLayout();
-    }
-
-    public function getLayout(): array
-    {
-        return $this->board->getLayout();
     }
 
     /**
@@ -96,12 +147,12 @@ class State
 
     public function isDraw(): bool
     {
-        return $this->isGameFinished() && !$this->hasWinner();
+        return $this->board->isFullyOccupied() && !$this->hasWinner();
     }
 
     public function isGameFinished(): bool
     {
-        return $this->board->isFullyOccupied();
+        return $this->hasWinner() || $this->isDraw();
     }
 
     public function hasWinner(): bool

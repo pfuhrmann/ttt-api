@@ -72,9 +72,9 @@ class Board
      * @param int $row Fetching point row
      * @param int $col Fetching point column
      *
-     * @return string|null Fetched value otherwise false if point does not exist
+     * @return int|null Fetched value otherwise false if point does not exist
      */
-    public function getCellType(int $row, int $col): ?string
+    public function getCellType(int $row, int $col): ?int
     {
         if (isset($this->layout[$row][$col])) {
             return $this->layout[$row][$col]['type'];
