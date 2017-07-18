@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Unit\GameEngine;
 
 use DH\TttApi\GameEngine\TttBoard;
 use Tests\BaseTttTest;

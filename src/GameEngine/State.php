@@ -19,7 +19,7 @@ class State
      */
     private $winner = 0;
 
-    public function __construct(Board $board)
+    public function __construct(TttBoard $board)
     {
         $this->board = $board;
         $this->checkForWin();
@@ -51,7 +51,7 @@ class State
      *
      * @return array|null
      */
-    public function isLastMove(): ?array
+    public function hasLastMove(): ?array
     {
         if ($this->board->getBlankCount() === 1) {
             return $this->getFirstAvailableMove();

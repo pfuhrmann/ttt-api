@@ -52,8 +52,8 @@ abstract class BaseBot implements BotInterface
      */
     private function computeMove(): array
     {
-        if ($this->state->isLastMove()) {
-            return $this->state->isLastMove();
+        if ($this->state->hasLastMove()) {
+            return $this->state->hasLastMove();
         }
 
         return $this->computeBestMove();
