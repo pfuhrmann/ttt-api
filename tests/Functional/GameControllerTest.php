@@ -76,7 +76,59 @@ class GameControllerTest extends BaseTttTest
             [2, 0, 0],
         ], $position));
 
-        $this->assertEquals(TttBoard::CELL_X, $response['layout'][$position[0]][$position[1]]['type']);
+        $this->assertEquals(TttBoard::CELL_X, $this->getTypeAtPosition($response['layout'], $position));
+    }
+
+    public function testMoveCluelessBot()
+    {
+        $position = [0, 1];
+        $response = $this->getParsedContents($this->requestMove([
+            [1, 0, 0],
+            [2, 1, 0],
+            [2, 0, 0],
+        ], $position));
+
+        // We need to check all empty positions for the random counter-move
+        $emptyPositions = [[0, 2], [1, 2], [2, 1], [2, 2]];
+        foreach ($emptyPositions as $position) {
+            $type = $this->getTypeAtPosition($response['layout'], $position);
+            if (Board::CELL_BLANK !== $type) {
+                $this->assertEquals(TttBoard::CELL_O, $type);
+            }
+        }
+    }
+
+    public function testMoveUnbeatableBot()
+    {
+        // When first player plays corner, perfect player
+        // has to play the center as initial move
+        $position = [0, 0];
+        $response = $this->getParsedContents($this->requestMove([
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ], $position, 'unbeatable'));
+
+        $this->assertEquals($this->buildLayout([
+            [1, 0, 0],
+            [0, 2, 0],
+            [0, 0, 0],
+        ]), $response['layout']);
+
+        // When first player plays center, perfect player
+        // has to play the corner as initial move
+        $position = [1, 1];
+        $response = $this->getParsedContents($this->requestMove([
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ], $position, 'unbeatable'));
+
+        $this->assertEquals($this->buildLayout([
+            [2, 0, 0],
+            [0, 1, 0],
+            [0, 0, 0],
+        ]), $response['layout']);
     }
 
     public function testMoveStateOngoing()
@@ -217,4 +269,5 @@ class GameControllerTest extends BaseTttTest
 
         $this->assertStatus($response, $state, $winner);
     }
+
 }

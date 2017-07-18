@@ -29,4 +29,9 @@ abstract class BaseTttTest extends TestCase
 
         return new State($board, $player);
     }
+
+    protected function getTypeAtPosition(array $layout, array $position): int
+    {
+        return $layout[$position[0]][$position[1]]['type'];
+    }
 }

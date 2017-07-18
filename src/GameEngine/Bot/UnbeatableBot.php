@@ -69,7 +69,6 @@ class UnbeatableBot extends BaseBot
         $this->bestMove = $moves[$minScoreIndex];
 
         return $scores[$minScoreIndex];
-
     }
 
     private function calculateScore(State $state): int
