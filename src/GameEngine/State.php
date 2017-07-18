@@ -19,9 +19,17 @@ class State
      */
     private $winner = 0;
 
-    public function __construct(TttBoard $board)
+    /**
+     * Player whose turn in is this state
+     *
+     * @var int
+     */
+    private $player;
+
+    public function __construct(TttBoard $board, int $player = TttBoard::CELL_X)
     {
         $this->board = $board;
+        $this->player = $player;
         $this->checkForWin();
     }
 
@@ -40,9 +48,9 @@ class State
     public function move(array $movePosition): State
     {
         $newBoard = clone $this->board;
-        $newBoard->setCellType(TttBoard::CELL_O, $movePosition[0], $movePosition[1]);
+        $newBoard->setCellType($this->getPlayer(), $movePosition[0], $movePosition[1]);
 
-        return new State($newBoard);
+        return new State($newBoard, $this->getOppositePlayer());
     }
 
     /**
@@ -68,6 +76,11 @@ class State
     public function getAvailableMoves(): array
     {
         return $this->board->getBlanks();
+    }
+
+    public function getPlayer(): int
+    {
+        return $this->player;
     }
 
     public function isGameFinished(): bool
@@ -193,5 +206,10 @@ class State
     private function getFirstAvailableMove(): array
     {
         return array_pop(array_reverse($this->getAvailableMoves()));
+    }
+
+    private function getOppositePlayer(): int
+    {
+        return (TttBoard::CELL_X === $this->player) ? TttBoard::CELL_O : TttBoard::CELL_X;
     }
 }

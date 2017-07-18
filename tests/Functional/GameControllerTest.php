@@ -81,7 +81,7 @@ class GameControllerTest extends BaseTttTest
 
     public function testMoveStateOngoing()
     {
-        $this->doTestMove([1, 2], 'ongoing', 0, [
+        $this->doTestMove([2, 1], 'ongoing', 0, [
             [1, 0, 0],
             [2, 1, 0],
             [2, 0, 0],

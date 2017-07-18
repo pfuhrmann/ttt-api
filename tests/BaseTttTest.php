@@ -22,11 +22,11 @@ abstract class BaseTttTest extends TestCase
         return $layout;
     }
 
-    protected function createNewState(array $layoutTypes): State
+    protected function createNewState(array $layoutTypes, int $player = TttBoard::CELL_X): State
     {
         $board = new TttBoard();
         $board->setLayout($this->buildLayout($layoutTypes));
 
-        return new State($board);
+        return new State($board, $player);
     }
 }

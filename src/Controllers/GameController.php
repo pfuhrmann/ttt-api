@@ -46,7 +46,7 @@ class GameController
         $board = new TttBoard();
         $board = $this->registerPlayerMove($board, $data['layout'], $data['position']);
         $bot = (new BotFactory())->createBot($data['botName']);
-        $state = new State($board);
+        $state = new State($board, TttBoard::CELL_O);
         $state = $bot->takeTurn($state);
 
         return $response->withJson([

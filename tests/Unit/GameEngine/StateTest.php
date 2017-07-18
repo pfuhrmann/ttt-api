@@ -28,13 +28,36 @@ class StateTest extends BaseTttTest
         $this->assertEquals([[0, 0], [0, 1], [1, 0], [2, 2]], $this->state->getAvailableMoves());
     }
 
+    public function testGetPlayer()
+    {
+        /** @var State $state */
+        $state = $this->state;
+        $this->assertEquals(1, $state->getPlayer());
+
+        $state = $state->move([0, 0]);
+        $this->assertEquals(TttBoard::CELL_O, $state->getPlayer());
+
+
+        $state = $state->move([0, 1]);
+        $this->assertEquals(TttBoard::CELL_X, $state->getPlayer());
+    }
+
     public function testMove()
     {
         $newState = $this->state->move([0, 1]);
 
-        $this->assertInstanceOf(State::class, $newState);
         $this->assertEquals($this->buildLayout([
-            [0, 2, 2],
+            [0, 1, 2],
+            [0, 1, 2],
+            [1, 1, 0],
+        ]), $newState->getLayout());
+    }
+
+    public function testMoveSwitchesPlayers()
+    {
+        $newState = $this->state->move([0, 1]);
+        $this->assertEquals($this->buildLayout([
+            [0, 1, 2],
             [0, 1, 2],
             [1, 1, 0],
         ]), $newState->getLayout());

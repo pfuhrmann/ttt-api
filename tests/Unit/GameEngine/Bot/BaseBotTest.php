@@ -4,6 +4,7 @@ namespace Tests\Unit\GameEngine\Bot;
 
 use DH\TttApi\GameEngine\Bot\BaseBot;
 use DH\TttApi\GameEngine\State;
+use DH\TttApi\GameEngine\TttBoard;
 use Tests\BaseTttTest;
 
 class BaseBotTest extends BaseTttTest
@@ -27,7 +28,7 @@ class BaseBotTest extends BaseTttTest
         $this->assertEquals($this->createNewState([
             [0, 0, 2],
             [0, 1, 2],
-            [1, 1, 2],
-        ]), $newState);
+            [1, 1, 1],
+        ], TttBoard::CELL_O), $newState);
     }
 }
