@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Tests\Functional;
 
@@ -164,7 +164,7 @@ class GameControllerTest extends BaseTttTest
     }
 
     /**
-     * @expectedException GuzzleHttp\Exception\ServerException
+     * @expectedException \GuzzleHttp\Exception\ServerException
      */
     public function testMoveIncorrectInput500()
     {

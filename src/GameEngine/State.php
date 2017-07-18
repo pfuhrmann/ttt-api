@@ -67,12 +67,7 @@ class State
      */
     public function getAvailableMoves(): array
     {
-        return $this->getBoard()->getBlanks();
-    }
-
-    public function getBoard(): TttBoard
-    {
-        return $this->board;
+        return $this->board->getBlanks();
     }
 
     public function isGameFinished(): bool
@@ -85,14 +80,14 @@ class State
         return 0 !== $this->winner;
     }
 
-    public function isDraw(): bool
-    {
-        return $this->board->isFullyOccupied() && !$this->hasWinner();
-    }
-
     public function getWinner(): int
     {
         return $this->winner;
+    }
+
+    public function isDraw(): bool
+    {
+        return $this->board->isFullyOccupied() && !$this->hasWinner();
     }
 
     private function checkForWin(): void

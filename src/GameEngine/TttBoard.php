@@ -13,11 +13,6 @@ class TttBoard extends Board
     private $blankCount = 0;
 
     /**
-     * @var int
-     */
-    private $takenCount = 0;
-
-    /**
      * Blank points on the board
      *
      * @var array
@@ -28,7 +23,6 @@ class TttBoard extends Board
     {
         parent::__construct($size, $size);
         $this->blankCount = pow($size, 2);
-
     }
 
     /**
@@ -61,7 +55,6 @@ class TttBoard extends Board
         parent::setCellType($type, $row, $col);
 
         if (self::CELL_BLANK !== $type) {
-            $this->takenCount++;
             $this->removeBlank($row, $col);
         } else {
             array_push($this->blanks, [$row, $col]);
