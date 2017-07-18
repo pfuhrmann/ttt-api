@@ -119,12 +119,4 @@ class StateTest extends BaseTttTest
         ]);
         $this->assertTrue($state->isDraw());
     }
-
-    private function createNewState(array $layoutTypes): State
-    {
-        $board = new TttBoard();
-        $board->setLayout($this->buildLayout($layoutTypes));
-
-        return new State($board);
-    }
 }

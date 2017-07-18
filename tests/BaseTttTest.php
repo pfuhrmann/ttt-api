@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use DH\TttApi\GameEngine\State;
+use DH\TttApi\GameEngine\TttBoard;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseTttTest extends TestCase
@@ -18,5 +20,13 @@ abstract class BaseTttTest extends TestCase
         }
 
         return $layout;
+    }
+
+    protected function createNewState(array $layoutTypes): State
+    {
+        $board = new TttBoard();
+        $board->setLayout($this->buildLayout($layoutTypes));
+
+        return new State($board);
     }
 }
