@@ -74,7 +74,7 @@ class Board
      * @param int $row Setting point row
      * @param int $col Setting point column
      */
-    public function setPointType(int $type, int $row, int $col): void
+    public function setCellType(int $type, int $row, int $col): void
     {
         $this->layout[$row][$col]['type'] = $type;
     }
@@ -91,7 +91,7 @@ class Board
     {
         for ($row = 0; $row < $this->rows; $row++) {
             for ($column = 0; $column < $this->columns; $column++) {
-                $this->setPointType(self::CELL_BLANK, $row, $column);
+                $this->setCellType(self::CELL_BLANK, $row, $column);
             }
         }
     }

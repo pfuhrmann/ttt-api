@@ -40,7 +40,7 @@ class State
     public function move(array $movePosition): State
     {
         $newBoard = clone $this->board;
-        $newBoard->setPointType(TttBoard::CELL_O, $movePosition[0], $movePosition[1]);
+        $newBoard->setCellType(TttBoard::CELL_O, $movePosition[0], $movePosition[1]);
 
         return new State($newBoard);
     }

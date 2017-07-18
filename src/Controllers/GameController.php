@@ -67,7 +67,7 @@ class GameController
     private function registerPlayerMove(TttBoard $board, array $layout, array $movePosition): TttBoard
     {
         $board->setLayout($layout);
-        $board->setPointType(TttBoard::CELL_X, $movePosition[0], $movePosition[1]);
+        $board->setCellType(TttBoard::CELL_X, $movePosition[0], $movePosition[1]);
 
         return $board;
     }

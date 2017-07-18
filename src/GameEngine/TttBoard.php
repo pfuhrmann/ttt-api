@@ -48,7 +48,7 @@ class TttBoard extends Board
 
         for ($row = 0; $row < count($layout); $row++) {
             for ($column = 0; $column < count($layout[$row]); $column++) {
-                $this->setPointType($layout[$row][$column]['type'], $row, $column);
+                $this->setCellType($layout[$row][$column]['type'], $row, $column);
             }
         }
     }
@@ -56,9 +56,9 @@ class TttBoard extends Board
     /**
      * {@inheritdoc}
      */
-    public function setPointType(int $type, int $row, int $col): void
+    public function setCellType(int $type, int $row, int $col): void
     {
-        parent::setPointType($type, $row, $col);
+        parent::setCellType($type, $row, $col);
 
         if (self::CELL_BLANK !== $type) {
             $this->takenCount++;

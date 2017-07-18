@@ -1,13 +1,15 @@
 <?php
 
+namespace Tests\Functional;
+
 use DH\TttApi\GameEngine\Board;
 use DH\TttApi\GameEngine\TttBoard;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Tests\BaseTttTest;
 
-class GameControllerTest extends TestCase
+class GameControllerTest extends BaseTttTest
 {
     /**
      * @var ClientInterface
@@ -200,19 +202,6 @@ class GameControllerTest extends TestCase
     private function getParsedContents(ResponseInterface $response): array
     {
         return json_decode($response->getBody()->getContents(), true);
-    }
-
-    private function buildLayout(array $layoutTypes): array
-    {
-        $rows = count($layoutTypes);
-        $layout = [];
-        for ($row = 0; $row < $rows; $row++) {
-            for ($column = 0; $column < $rows; $column++) {
-                $layout[$row][$column]['type'] = $layoutTypes[$row][$column];
-            }
-        }
-
-        return $layout;
     }
 
     private function assertStatus(array $response, string $state, int $winner)
