@@ -1,6 +1,7 @@
 <?php
 
 use DH\TttApi\GameEngine\Board;
+use DH\TttApi\GameEngine\TttBoard;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use PHPUnit\Framework\TestCase;
@@ -64,16 +65,100 @@ class GameControllerTest extends TestCase
         $this->assertInternalType('int', $response['status']['winner']);
     }
 
-    public function testMoveRegistersPosition()
+    public function testMoveRegistersPlayersPosition()
     {
         $position = [0, 1];
         $response = $this->getParsedContents($this->requestMove([
             [1, 0, 0],
-            [0, 1, 0],
-            [0, 0, 0],
+            [2, 1, 0],
+            [2, 0, 0],
         ], $position));
 
-        $this->assertEquals(1, $response['layout'][$position[0]][$position[1]]['type']);
+        $this->assertEquals(TttBoard::CELL_X, $response['layout'][$position[0]][$position[1]]['type']);
+    }
+
+    public function testMoveStateOngoing()
+    {
+        $this->doTestMove([1, 2], 'ongoing', 0, [
+            [1, 0, 0],
+            [2, 1, 0],
+            [2, 0, 0],
+        ]);
+    }
+
+    public function testMoveStateDraw()
+    {
+        $this->doTestMove([2, 2], 'draw', 0, [
+            [2, 1, 2],
+            [2, 1, 1],
+            [1, 2, 0],
+        ]);
+    }
+
+    public function testMoveStateBotWin()
+    {
+        $this->doTestMove([2, 2], 'win', TttBoard::CELL_O, [
+            [2, 1, 1],
+            [2, 1, 1],
+            [2, 2, 0],
+        ]);
+    }
+
+    public function testMoveStateWinRow()
+    {
+        $this->doTestMove([2, 2], 'win', TttBoard::CELL_X, [
+            [1, 1, 1],
+            [2, 1, 2],
+            [2, 2, 0],
+        ]);
+    }
+
+    public function testMoveStateWinColumn()
+    {
+        $this->doTestMove([2, 0], 'win', TttBoard::CELL_X, [
+            [1, 1, 1],
+            [2, 2, 1],
+            [0, 2, 1],
+        ]);
+    }
+
+    public function testMoveStateWinTopRightLeftBottomDiagonal()
+    {
+        $this->doTestMove([2, 0], 'win', TttBoard::CELL_X, [
+            [1, 1, 2],
+            [2, 1, 1],
+            [0, 2, 1],
+        ]);
+    }
+
+    public function testMoveStateWinTopLeftRightBottomDiagonal()
+    {
+        $this->doTestMove([2, 2], 'win', TttBoard::CELL_X, [
+            [2, 2, 1],
+            [2, 1, 0],
+            [1, 2, 0],
+        ]);
+    }
+
+    public function testMove4X4()
+    {
+        $this->doTestMove([0, 0], 'win', TttBoard::CELL_X, [
+            [0, 0, 1, 1],
+            [2, 1, 1, 0],
+            [1, 1, 2, 2],
+            [1, 2, 2, 0],
+        ]);
+    }
+
+    public function testMove5X5()
+    {
+        $this->doTestMove([0, 0], 'win', TttBoard::CELL_X, [
+            [0, 0, 1, 1, 1],
+            [2, 1, 1, 0, 0],
+            [1, 1, 1, 2, 2],
+            [1, 2, 1, 2, 0],
+            [1, 2, 1, 0, 0],
+        ]);
     }
 
     /**
@@ -128,5 +213,19 @@ class GameControllerTest extends TestCase
         }
 
         return $layout;
+    }
+
+    private function assertStatus(array $response, string $state, int $winner)
+    {
+        $status = $response['status'];
+        $this->assertEquals($state, $status['state']);
+        $this->assertEquals($winner, $status['winner']);
+    }
+
+    private function doTestMove(array $position, string $state, int $winner, array $layoutTypes)
+    {
+        $response = $this->getParsedContents($this->requestMove($layoutTypes, $position));
+
+        $this->assertStatus($response, $state, $winner);
     }
 }
