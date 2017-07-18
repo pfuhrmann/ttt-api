@@ -21,19 +21,19 @@ class GameControllerTest extends BaseTttTest
      */
     public function setUp()
     {
-        $this->client = new Client(['base_uri' => 'http://localhost:8888/']);
+        $this->client = new Client(['base_uri' => 'http://ttt-api-nginx']);
     }
 
     public function testInit200()
     {
-        $response = $this->client->request('GET', 'api/init');
+        $response = $this->client->request('GET', '/init');
 
         $this->assertEquals($response->getStatusCode(), 200);
     }
 
     public function testInitContainsEmptyLayout()
     {
-        $response = $this->getParsedContents($this->client->request('GET', 'api/init'));
+        $response = $this->getParsedContents($this->client->request('GET', '/init'));
 
         $this->assertCount(3, $response['layout']);
 
@@ -168,7 +168,7 @@ class GameControllerTest extends BaseTttTest
      */
     public function testMoveIncorrectInput500()
     {
-        $response = $this->client->request('POST', 'api/move', []);
+        $response = $this->client->request('POST', '/move', []);
 
         $this->assertEquals($response->getStatusCode(), 200);
     }
@@ -184,7 +184,7 @@ class GameControllerTest extends BaseTttTest
 
     private function requestMove(array $layoutTypes, array $position = [0, 2], string $botName = 'clueless'): ResponseInterface
     {
-        return $this->client->request('POST', 'api/move', [
+        return $this->client->request('POST', '/move', [
             'headers' => ['content-type' => 'application/json'],
             'body' => json_encode([
                 'position' => $position,
