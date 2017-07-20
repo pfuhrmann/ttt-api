@@ -18,10 +18,8 @@ class BotFactory
         switch ($name) {
             case CluelessBot::NAME:
                 return new CluelessBot();
-                break;
             case UnbeatableBot::NAME:
                 return new UnbeatableBot();
-                break;
         }
 
         throw new BotNotSupportedException('Unsupported type of the bot "' . $name . '"');
