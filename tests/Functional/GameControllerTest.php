@@ -269,5 +269,4 @@ class GameControllerTest extends BaseTttTest
 
         $this->assertStatus($response, $state, $winner);
     }
-
 }
