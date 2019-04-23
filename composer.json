@@ -15,12 +15,6 @@
             "Tests\\": "tests/"
         }
     },
-    "authors": [
-        {
-            "name": "Patrik Fuhrmann",
-            "email": "fuhrmann.patrik@gmail.com"
-        }
-    ],
     "config": {
         "bin-dir": "bin"
     }
